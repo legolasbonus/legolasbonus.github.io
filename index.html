@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>LGO Token</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="moment.js"></script>
+
+    <script type="text/javascript">
+        var data = null;
+        var ticker = null;
+
+        function getAddress() {
+            return $('#address').val();
+        }
+
+        function setAddress(newAddress) {
+            $('#address').val(localStorage.getItem('address') || '');
+        }
+
+        function calculateBonus() {
+            var address = getAddress();
+            if (data && address && ticker) {
+                var lgoTokens = 0;
+                var bonusSupply = 35000000;
+                var quarterBonusSupply = bonusSupply / 4;
+                var totalLgoTokensEligibleForBonus = 0;
+
+                for (var i = 0; i < data.eligibleBonusTokenHolders.length; i++) {
+                    var tokenHolder = data.eligibleBonusTokenHolders[i];
+                    totalLgoTokensEligibleForBonus += tokenHolder.balance;
+                    if (tokenHolder.address === address) {
+                        lgoTokens += tokenHolder.balance;
+                    }
+                }
+
+                var bonus = quarterBonusSupply / totalLgoTokensEligibleForBonus * lgoTokens;
+                var bonusFormatted = parseFloat(bonus.toFixed(3));
+                $('#bonus').text(`${bonusFormatted} LGO tokens`);
+
+                var bonusInEur = bonusFormatted * parseFloat(ticker.price_eur);
+                $('#eur').text(`${bonusInEur.toFixed(3)} EUR`);
+
+                return;
+            }
+
+            $('#bonus').text(`-`);
+            $('#eur').text(`-`);
+        }
+
+        function loadStateFromLocalStorage() {
+            setAddress(localStorage.getItem('address') || '');
+        }
+
+        function loadData() {
+            $(function () {
+                $.getJSON('data.json', function (json) {
+                    data = json;
+                    calculateBonus();
+
+                    $('#holding-rights-count').text(data.initialTokenHoldersCount - data.eligibleBonusTokenHolders.length);
+
+                    var firstBonusReleaseDate = moment('Wed, 15 Aug 2018 00:00:00 +0000');
+                    var bonusReleasedInDays = firstBonusReleaseDate.diff(moment().utc(), 'days');
+                    $('#bonus-released-days').text(`${bonusReleasedInDays} days`);
+                });
+
+                $.getJSON('https://api.coinmarketcap.com/v1/ticker/bitcoin/?convert=EUR', function (json) {
+                    ticker = json[0];
+                    calculateBonus();
+                });
+            });
+        }
+
+        function registerEventHandlers() {
+            $('#address').on('input', () => {
+                localStorage.setItem('address', getAddress());
+                calculateBonus();
+            });
+
+            $('#agree').on('change', () => {
+                var agreed = $('#agree').prop('checked');
+                $('#enter-button').prop('disabled', !agreed)
+            });
+
+            $('#enter-button').on('click', () => {
+                $('.modal').hide();
+            });
+        }
+
+        $(() => {
+            loadStateFromLocalStorage();
+            registerEventHandlers();
+            calculateBonus();
+            loadData();
+
+            // let's also kick 
+        });
+    </script>
+
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background-image: linear-gradient(to right top, #467b8d 0, #000935 60%, #000 100%);
+            background-size: 100%;
+            background-repeat: no-repeat no-repeat;
+            width: 100%;
+            overflow: hidden;
+            font-size: 22px;
+            font-family: quicksand;
+            line-height: 1.2em;
+            font-weight: 500;
+            color: white;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .h1,
+        .h2,
+        .h3,
+        .h4,
+        .h5,
+        .h6 {
+            margin-bottom: .5rem;
+            font-family: quicksand, sans-serif;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .section_sub_title {
+            position: relative;
+            font-size: 28px;
+            text-transform: uppercase;
+            color: #56d7ae;
+        }
+
+        .text-center {
+            text-align: center!important;
+        }
+
+        .main {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .row {
+            margin-top: 30px;
+        }
+
+        input[type="text"] {
+            width: 450px;
+            height: 25px;
+            font-size: 15px;
+
+            text-align: center;
+
+            color: #56d7ae;
+            background-color: #467b8d;
+            border: 0;
+        }
+
+        .etherum-address-text {
+            margin-bottom: 5px;
+        }
+
+        #bonus,
+        #eur,
+        #updatedAt,
+        #holding-rights-count,
+        #bonus-released-days {
+            font-size: 15px;
+            color: #56d7ae;
+        }
+
+        .modal {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+
+            color: black;
+        }
+
+        .modal-backdrop {
+            background: black;
+            width: 100%;
+            height: 100%;
+            opacity: 0.77;
+            position: absolute;
+
+            left: 0;
+            top: 0;
+        }
+
+        .modal-inner {
+            width: 400px;
+            height: 500px;
+            background: white;
+            position: absolute;
+
+            left: 0;
+            right: 0;
+
+            margin-left: auto;
+            margin-right: auto;
+
+            top: 40px;
+        }
+
+        .modal-title {
+            text-align: center;
+            font-size: 22px;
+
+            height: 80px;
+            margin-top: 20px;
+        }
+
+        .modal-content {
+            height: 350px;
+
+            margin-left: 15px;
+            margin-right: 15px;
+            font-size: 15px;
+        }
+
+        .modal-footer {
+            height: 50px;
+        }
+
+        .modal-footer button {
+            float: right;
+            width: 100px;
+            height: 30px;
+            margin-right: 20px;
+            border: 1px solid black;
+        }
+
+        .agree-container {
+            margin-top: 20px;
+        }
+
+        .counter {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main text-center">
+        <h3 class="section_sub_title">
+            <span>LEGOLAS EXCHANGE'S BONUS CALCULATOR</span>
+        </h3>
+        <div class="row">
+            <div class="etherum-address-text">Your etherum address</div>
+            <input type="text" id="address" />
+        </div>
+
+        <div class="row">
+            <div>Amount of bonus you are entitled to</div>
+            <span id="bonus">-</span>
+        </div>
+
+        <div class="row">
+            <div>How much is that worth in EUR</div>
+            <span id="eur">-</span>
+        </div>
+
+        <div class="row">
+            <div>Number of people that lost holding rights:</div>
+            <span id="holding-rights-count">-</span>
+        </div>
+
+        <div class="row">
+            <div>First bonus released in:</div>
+            <span id="bonus-released-days">-</span>
+        </div>
+    </div>
+
+
+    <img src="http://www.reliablecounter.com/count.php?page=legolas.github.io&digit=style/plain/14/&reloads=0"
+        class="counter">
+
+    <div class="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-inner">
+            <div class="modal-title">Legolas exchange bonus calculator</div>
+            <div class="modal-content">
+                This calculator will show you how much bonus you will receive in the future.
+                <br> Note that calculator is experimental and might not reflect
+                the actual value you will receive, but for all purposes,
+                it should give you good idea what to expect.
+                <br> It is also tracking the amount of users who have lost
+                bonus rights, so you will see your bonus increase every
+                day as you visit the calculator!
+                <div class="agree-container">
+                    <input type="checkbox" id="agree" />
+                    <label for="agree">
+                        <strong>I understand</strong>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button disabled id="enter-button">Enter</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
