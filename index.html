@@ -43,7 +43,7 @@
 
         function loadData() {
             $(function () {
-                $.getJSON('data.json', function (json) {
+                $.getJSON('data.json?' + new Date().getTime(), function (json) {
                     data = json;
                     calculateBonus();
 
