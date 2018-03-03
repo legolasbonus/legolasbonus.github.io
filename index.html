@@ -24,24 +24,11 @@
         function calculateBonus() {
             var address = getAddress();
             if (data && address && ticker) {
-                var lgoTokens = 0;
-                var bonusSupply = 35000000;
-                var quarterBonusSupply = bonusSupply / 4;
-                var totalLgoTokensEligibleForBonus = 0;
+                
+                const bonus = data.eligibleBonusTokenHolders[address] || '0';
+                const bonusInEur = parseFloat(bonus) * parseFloat(ticker.price_eur);
 
-                for (var i = 0; i < data.eligibleBonusTokenHolders.length; i++) {
-                    var tokenHolder = data.eligibleBonusTokenHolders[i];
-                    totalLgoTokensEligibleForBonus += tokenHolder.balance;
-                    if (tokenHolder.address === address) {
-                        lgoTokens += tokenHolder.balance;
-                    }
-                }
-
-                var bonus = quarterBonusSupply / totalLgoTokensEligibleForBonus * lgoTokens;
-                var bonusFormatted = parseFloat(bonus.toFixed(3));
-                $('#bonus').text(`${bonusFormatted} LGO tokens`);
-
-                var bonusInEur = bonusFormatted * parseFloat(ticker.price_eur);
+                $('#bonus').text(`${bonus} LGO tokens`);
                 $('#eur').text(`${bonusInEur.toFixed(3)} EUR`);
 
                 return;
@@ -61,7 +48,7 @@
                     data = json;
                     calculateBonus();
 
-                    $('#holding-rights-count').text(data.initialTokenHoldersCount - data.eligibleBonusTokenHolders.length);
+                    $('#holding-rights-count').text(data.numberOfPeopleWhoLostBonus);
 
                     var firstBonusReleaseDate = moment('Wed, 15 Aug 2018 00:00:00 +0000');
                     var bonusReleasedInDays = firstBonusReleaseDate.diff(moment().utc(), 'days');
