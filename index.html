@@ -47,7 +47,12 @@
                     data = json;
                     calculateBonus();
 
+                    const formattedPeopleWhoLostBonusInLGO = data.numberOfPeopleWhoLostBonusInLGO
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
                     $('#holding-rights-count').text(data.numberOfPeopleWhoLostBonus);
+                    $('#holding-rights-lost-tokens').text(`${formattedPeopleWhoLostBonusInLGO} LGO tokens`);
 
                     var firstBonusReleaseDate = moment('Wed, 15 Aug 2018 00:00:00 +0000');
                     var bonusReleasedInDays = firstBonusReleaseDate.diff(moment().utc(), 'days');
@@ -341,6 +346,11 @@
         <div class="row">
             <div>Number of people that lost holding rights:</div>
             <span id="holding-rights-count">-</span>
+        </div>
+
+        <div class="row">
+            <div>Amount of LGO's they were holding:</div>
+            <span id="holding-rights-lost-tokens">-</span>
         </div>
 
         <div class="row">
