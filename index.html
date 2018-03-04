@@ -69,7 +69,10 @@
 
             $('#agree').on('change', () => {
                 var agreed = $('#agree').prop('checked');
-                $('#enter-button').prop('disabled', !agreed)
+                $('#enter-button').prop('disabled', !agreed);
+                if (agreed) {
+                    localStorage.setItem('agreed', agreed);
+                }
             });
 
             $('#enter-button, #close-button').on('click', () => {
@@ -88,6 +91,9 @@
             loadData();
 
             $('.counter').attr('src', 'http://www.reliablecounter.com/count.php?page=legolas.github.io&digit=style/plain/14/&reloads=0&brek=' + new Date().getTime());
+            if(!localStorage.getItem('agreed')) {
+                $('.agreement-modal').show();
+            }
         });
     </script>
 
@@ -347,7 +353,7 @@
     <img class="counter" />
     <button type="button" class="donate-button">Donate</button>
 
-    <div class="modal">
+    <div class="modal hide agreement-modal">
         <div class="modal-backdrop"></div>
         <div class="modal-inner">
             <div class="modal-title">Legolas exchange bonus calculator</div>
