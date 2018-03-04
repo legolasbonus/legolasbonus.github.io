@@ -25,7 +25,7 @@
             var address = getAddress();
             if (data && address && ticker) {
                 
-                const bonus = data.eligibleBonusTokenHolders[address] || '0';
+                const bonus = data.eligibleBonusTokenHolders[address.toLowerCase()] || '0';
                 const bonusInEur = parseFloat(bonus) * parseFloat(ticker.price_eur);
 
                 $('#bonus').text(`${bonus} LGO tokens`);
