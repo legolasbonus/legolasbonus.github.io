@@ -20,11 +20,11 @@
         function setAddress(newAddress) {
             $('#address').val(localStorage.getItem('address') || '');
         }
- 
+
         function calculateBonus() {
             var address = getAddress();
             if (data && address && ticker) {
-                
+
                 const bonus = data.eligibleBonusTokenHolders[address.toLowerCase()] || '0';
                 const bonusInEur = parseFloat(bonus) * parseFloat(ticker.price_eur);
 
@@ -72,8 +72,12 @@
                 $('#enter-button').prop('disabled', !agreed)
             });
 
-            $('#enter-button').on('click', () => {
+            $('#enter-button, #close-button').on('click', () => {
                 $('.modal').hide();
+            });
+
+            $('.donate-button').on('click', () => {
+                $('.donation-modal').show();
             });
         }
 
@@ -244,6 +248,37 @@
             left: 0;
         }
 
+        .donate-button {
+            right: 5px;
+            top: 5px;
+            position: absolute;
+            color: #fff;
+            background-color: #467b8d;
+            border-color: #467b8d;
+            /* color: #fff; */
+            /* background-color: #467b8d; */
+            /* border-color: #467b8d; */
+            display: inline-block;
+            font-weight: 500;
+            text-transform: uppercase;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 0 solid transparent;
+            padding: 5px 10px;
+            font-size: 14px;
+            line-height: 1em;
+            border-radius: .25rem!important;
+        }
+
+        .donation-modal img {
+            margin-left: auto;
+            display: block;
+            margin-right: auto;
+        }
+        .donation-modal b { font-size: 16px; }
+
         .construction {
             z-index: 19999;
             position: absolute;
@@ -254,6 +289,8 @@
             width: 100%;
             height: 100%;
         }
+
+        .hide { display: none; }
         .inner-construction-backdrop {
             background: black;
             opacity: 0.9;
@@ -266,10 +303,11 @@
         .inner-construction {
             position: absolute;
 
-            top: 50%;  /* position the top  edge of the element at the middle of the parent */
-            left: 50%; /* position the left edge of the element at the middle of the parent */
-
-            transform: translate(-50%, -50%); 
+            top: 50%;
+            /* position the top  edge of the element at the middle of the parent */
+            left: 50%;
+            /* position the left edge of the element at the middle of the parent */
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
@@ -307,6 +345,7 @@
 
 
     <img class="counter" />
+    <button type="button" class="donate-button">Donate</button>
 
     <div class="modal">
         <div class="modal-backdrop"></div>
@@ -328,6 +367,27 @@
 
             <div class="modal-footer">
                 <button disabled id="enter-button">Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal hide donation-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-inner">
+            <div class="modal-title">Donation</div>
+            <div class="modal-content">
+                Please use this <strong>Etherum</strong> address to donate. 
+                <br/> Thanks for your contribution !
+                <br />
+
+                <br /><b>0x15501439E042071A27a9a22D1c60F57C1B72471B</b>
+                <br/>
+                <br />
+                <img src="eth.png" width=200 />
+            </div>
+
+            <div class="modal-footer">
+                <button id="close-button">Close</button>
             </div>
         </div>
     </div>
