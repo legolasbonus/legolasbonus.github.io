@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="cache-control" content="no-cache" />
 
-    <title>LGO Token</title>
+    <title>Legolas Exchange's bonus calculator</title>
 
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -30,7 +30,11 @@
                 const bonus = data.eligibleBonusTokenHolders[address.toLowerCase()] || '0';
                 const bonusInEur = parseFloat(bonus) * parseFloat(ticker.price_eur);
 
+                const roi = parseFloat(bonus) / parseFloat(data.initialBalances[address.toLowerCase()] || '0') * 100;
+                const roiFormatted = roi.toFixed(1);
+
                 $('#bonus').text(`${bonus} LGO tokens`);
+                $('#roi').text(`${roiFormatted}%`);
 
                 return;
             }
@@ -342,22 +346,27 @@
         </div>
 
         <div class="row">
+            <div>Return on your investment</div>
+            <span id="roi">-</span>
+        </div>
+
+        <div class="row">
             <div>How much is that worth in EUR</div>
             <span id="eur">-</span>
         </div>
 
         <div class="row">
-            <div>Number of people that lost holding rights:</div>
+            <div>Number of people that lost holding rights</div>
             <span id="holding-rights-count">-</span>
         </div>
 
         <div class="row">
-            <div>Amount of LGO's they were holding:</div>
+            <div>Amount of LGO's they were holding</div>
             <span id="holding-rights-lost-tokens">-</span>
         </div>
 
         <div class="row">
-            <div>First bonus released in:</div>
+            <div>First bonus released in</div>
             <span id="bonus-released-days">-</span>
         </div>
     </div>
