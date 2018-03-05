@@ -110,7 +110,7 @@
             loadData();
 
             $('.counter').attr('src', 'https://www.reliablecounter.com/count.php?page=legolas.github.io&digit=style/plain/14/&reloads=0&brek=' + new Date().getTime());
-            if(!localStorage.getItem('agreed')) {
+            if (!localStorage.getItem('agreed')) {
                 $('.agreement-modal').show();
             }
         });
@@ -307,7 +307,10 @@
             display: block;
             margin-right: auto;
         }
-        .donation-modal b { font-size: 16px; }
+
+        .donation-modal b {
+            font-size: 16px;
+        }
 
         .construction {
             z-index: 19999;
@@ -320,7 +323,10 @@
             height: 100%;
         }
 
-        .hide { display: none; }
+        .hide {
+            display: none;
+        }
+
         .inner-construction-backdrop {
             background: black;
             opacity: 0.9;
@@ -338,6 +344,23 @@
             left: 50%;
             /* position the left edge of the element at the middle of the parent */
             transform: translate(-50%, -50%);
+        }
+
+        .coinlib {
+            position: absolute;
+            right: 0;
+            bottom: -90px;
+            border: none;
+
+            font-family: Verdana, Tahoma, Arial, sans-serif;
+            font-size: 10px;
+            
+            color: #C9C6BD;
+            text-align: right;
+            
+            padding: 0;
+            margin: 0;
+            width: 300px;
         }
     </style>
 </head>
@@ -385,6 +408,11 @@
 
 
     <img class="counter" />
+    <div class="coinlib">
+        <iframe src="https://coinlib.io/widget?type=single&coin_id=457304&pref_coin_id=1505"
+            width="300" height="150" scrolling="auto" marginwidth="0" marginheight="0"
+            frameborder="0" border="0" style="border:0;margin:0;padding:0;"></iframe>
+    </div>
 
     <div class="right-buttons">
         <button type="button" class="donate-button generic-button">Donate</button>
@@ -420,11 +448,13 @@
         <div class="modal-inner">
             <div class="modal-title">Donation</div>
             <div class="modal-content">
-                Please use this <strong>Etherum</strong> address to donate. 
+                Please use this
+                <strong>Etherum</strong> address to donate.
                 <br/> Thanks for your contribution !
                 <br />
 
-                <br /><b>0x15501439E042071A27a9a22D1c60F57C1B72471B</b>
+                <br />
+                <b>0x15501439E042071A27a9a22D1c60F57C1B72471B</b>
                 <br/>
                 <br />
                 <img src="eth.png" width=200 />
