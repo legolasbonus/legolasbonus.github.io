@@ -95,6 +95,12 @@
             $('.donate-button').on('click', () => {
                 $('.donation-modal').show();
             });
+
+            $('.github-button').on('click', () => {
+                window
+                    .open('https://github.com/legolasbonus', '_blank')
+                    .focus();
+            });
         }
 
         $(() => {
@@ -269,10 +275,13 @@
             left: 0;
         }
 
-        .generic-button {
+        .right-buttons {
             right: 5px;
             top: 5px;
             position: absolute;
+        }
+
+        .generic-button {
             color: #fff;
             background-color: #467b8d;
             border-color: #467b8d;
@@ -376,7 +385,11 @@
 
 
     <img class="counter" />
-    <button type="button" class="donate-button generic-button">Donate</button>
+
+    <div class="right-buttons">
+        <button type="button" class="donate-button generic-button">Donate</button>
+        <button type="button" class="github-button generic-button">Github</button>
+    </div>
 
     <div class="modal hide agreement-modal">
         <div class="modal-backdrop"></div>
