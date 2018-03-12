@@ -67,8 +67,7 @@
                     $('#bonus-released-days').text(`${bonusReleasedInDays} days`);
                 });
 
-                $.getJSON('https://www.livecoinwatch.com/api/coin/LGO?_=' + new Date().getTime(), function (json) {
-                    debugger;
+                $.getJSON('https://api.coinmarketcap.com/v1/ticker/bitcoin/?convert=EUR', function (json) {
                     ticker = json[0];
                     calculateBonus();
                 });
