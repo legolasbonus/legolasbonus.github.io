@@ -23,24 +23,29 @@
             $('#address').val(localStorage.getItem('address') || '');
         }
 
+        function formatNumber (number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+        }
+
         function calculateBonus() {
             var address = getAddress();
             if (data && address && ticker) {
 
                 const bonus = data.eligibleBonusTokenHolders[address.toLowerCase()] || '0';
-                const bonusInEur = parseFloat(bonus) * parseFloat(ticker.price_eur);
+                const bonusInUsd = parseFloat(bonus) * parseFloat(ticker.last_usd);
 
                 const roi = parseFloat(bonus) / parseFloat(data.initialBalances[address.toLowerCase()] || '0') * 100;
                 const roiFormatted = roi.toFixed(1);
 
                 $('#bonus').text(`${bonus} LGO tokens`);
                 $('#roi').text(`${roiFormatted}%`);
+                $('#usd').text(`${formatNumber(bonusInUsd)} USD`);
 
                 return;
             }
 
             $('#bonus').text(`-`);
-            $('#eur').text(`-`);
+            $('#usd').text(`-`);
             $('#roi').text(`-`);
 
         }
@@ -55,9 +60,7 @@
                     data = json;
                     calculateBonus();
 
-                    const formattedPeopleWhoLostBonusInLGO = data.numberOfPeopleWhoLostBonusInLGO
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                    const formattedPeopleWhoLostBonusInLGO = formatNumber(data.numberOfPeopleWhoLostBonusInLGO);
 
                     $('#holding-rights-count').text(data.numberOfPeopleWhoLostBonus);
                     $('#holding-rights-lost-tokens').text(`${formattedPeopleWhoLostBonusInLGO} LGO tokens`);
@@ -67,8 +70,8 @@
                     $('#bonus-released-days').text(`${bonusReleasedInDays} days`);
                 });
 
-                $.getJSON('https://api.coinmarketcap.com/v1/ticker/bitcoin/?convert=EUR', function (json) {
-                    ticker = json[0];
+                $.getJSON('https://api.bibox.com/v1/mdata?cmd=market&pair=LGO_ETH', function (json) {
+                    ticker = json.result;
                     calculateBonus();
                 });
             });
@@ -381,8 +384,8 @@
         </div>
 
         <div class="row">
-            <div>How much is that worth in EUR</div>
-            <span id="eur">-</span>
+            <div>How much is that worth in USD</div>
+            <span id="usd">-</span>
         </div>
 
         <div class="row">
