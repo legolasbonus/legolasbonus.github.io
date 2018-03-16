@@ -39,7 +39,7 @@
 
                 $('#bonus').text(`${bonus} LGO tokens`);
                 $('#roi').text(`${roiFormatted}%`);
-                $('#usd').text(`${formatNumber(bonusInUsd)} USD`);
+                $('#usd').text(`${formatNumber(bonusInUsd.toFixed(1))} USD`);
 
                 return;
             }
@@ -189,7 +189,7 @@
         }
 
         #bonus,
-        #eur,
+        #usd,
         #updatedAt,
         #holding-rights-count,
         #holding-rights-lost-tokens,
