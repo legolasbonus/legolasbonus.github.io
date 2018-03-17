@@ -29,17 +29,22 @@
 
         function calculateBonus() {
             var address = getAddress();
-            if (data && address && ticker) {
+            if (data && address) {
 
                 const bonus = data.eligibleBonusTokenHolders[address.toLowerCase()] || '0';
-                const bonusInUsd = parseFloat(bonus) * parseFloat(ticker.last_usd);
 
                 const roi = parseFloat(bonus) / parseFloat(data.initialBalances[address.toLowerCase()] || '0') * 100;
                 const roiFormatted = roi.toFixed(1);
 
                 $('#bonus').text(`${bonus} LGO tokens`);
                 $('#roi').text(`${roiFormatted}%`);
-                $('#usd').text(`${formatNumber(bonusInUsd.toFixed(1))} USD`);
+
+                if (ticker) {
+                    const bonusInUsd = parseFloat(bonus) * parseFloat(ticker.last_usd);
+                    $('#usd').text(`${formatNumber(bonusInUsd.toFixed(1))} USD`);
+                } else {
+                    $('#usd').text(`-`);
+                }
 
                 return;
             }
