@@ -34,7 +34,7 @@
                 const bonus = data.eligibleBonusTokenHolders[address.toLowerCase()] || '0';
 
                 const roi = parseFloat(bonus) / parseFloat(data.initialBalances[address.toLowerCase()] || '0') * 100;
-                const roiFormatted = roi.toFixed(1);
+                const roiFormatted = roi.toFixed(2);
 
                 $('#bonus').text(`${bonus} LGO tokens`);
                 $('#roi').text(`${roiFormatted}%`);
