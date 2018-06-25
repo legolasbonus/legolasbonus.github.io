@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="cache-control" content="no-cache" />
 
-    <title>Legolas Exchange's bonus calculator</title>
+    <title>Unofficial Legolas Exchange's bonus calculator</title>
 
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -23,7 +23,7 @@
             $('#address').val(localStorage.getItem('address') || '');
         }
 
-        function formatNumber (number) {
+        function formatNumber(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         }
 
@@ -56,7 +56,9 @@
         }
 
         function loadStateFromLocalStorage() {
-            setAddress(localStorage.getItem('address') || '');
+            try {
+                setAddress(localStorage.getItem('address') || '');
+            } catch (e) { }
         }
 
         function loadData() {
@@ -164,7 +166,7 @@
         }
 
         .text-center {
-            text-align: center!important;
+            text-align: center !important;
         }
 
         .main {
@@ -226,7 +228,7 @@
         }
 
         .modal-inner {
-            width: 400px;
+            width: 600px;
             height: 500px;
             background: white;
             position: absolute;
@@ -302,7 +304,7 @@
             padding: 5px 10px;
             font-size: 14px;
             line-height: 1em;
-            border-radius: .25rem!important;
+            border-radius: .25rem !important;
         }
 
         .donation-modal img {
@@ -357,10 +359,10 @@
 
             font-family: Verdana, Tahoma, Arial, sans-serif;
             font-size: 10px;
-            
+
             color: #C9C6BD;
             text-align: right;
-            
+
             padding: 0;
             margin: 0;
             width: 300px;
@@ -371,7 +373,7 @@
 <body>
     <div class="main text-center">
         <h3 class="section_sub_title">
-            <span>LEGOLAS EXCHANGE'S BONUS CALCULATOR</span>
+            <span>UNOFFICIAL LEGOLAS EXCHANGE'S BONUS CALCULATOR</span>
         </h3>
         <div class="row">
             <div class="etherum-address-text">Your ethereum address</div>
@@ -404,7 +406,7 @@
         </div>
 
         <div class="row">
-            <div>First bonus released in</div>
+            <div>First bonus released in;</div>
             <span id="bonus-released-days">-</span>
         </div>
     </div>
@@ -425,8 +427,8 @@
     <div class="modal hide agreement-modal">
         <div class="modal-backdrop"></div>
         <div class="modal-inner">
-            <div class="modal-title">Legolas exchange bonus calculator</div>
-            <div class="modal-content">
+            <div class="modal-title">Unofficial Legolas exchange bonus calculator</div>
+            <!-- <div class="modal-content">
                 <b>Disclaimer:</b> This calculator is non-official, fan made. <br />
 
                 Calculator will show you how much bonus you will receive in the future.
@@ -445,10 +447,40 @@
                         <strong>I understand</strong>
                     </label>
                 </div>
+            </div> -->
+
+            <div class="modal-content">
+                <b>A short message from the LGO Bonus Calculator Creator:</b>
+
+                <p>
+                    Hi, my name is Chris and I am currently working on a new exciting project called
+                    <b>Tokenaire</b>. Would love to meet you in the Tokenaire
+                    Community.<br />
+                    <br>Our Pre-Sale with 20% Bonus starts on
+                    <b>14th of July</b>. <br />Sign up with this link and receive
+                    an additional 5% bonus:
+                    <a href="https://marketplace.tokenaire.club/?referralLinkId=b7c9eb9d-5ebc-455d-9e30-8b6cc5786661">tokenaire referral link</a>
+                </p>
+
+                <p>
+                    Find out more at at
+                    <a href="https://www.tokenaire.club/">www.tokenaire.club</a>
+                </p>
+
+                <a href="https://blog.hacken.io/tokenaire-partners-with-hacken">Hacken's Partnership Announcement</a>
+
+                <br>
+                <a href="https://medium.com/sumsub/sum-substance-and-tokenaire-setting-the-precedence-for-tokenizing-people-4ad424da16bd">
+                    Sum&amp;Substance's Partnership Announcement
+                </a>
+                <br>
+                <a href="https://medium.com/@tokenaireltd/tokenizing-people-9c6acdb67699">Tokenaire Press Release - Tokenizing People</a>
+                <br>
+                <a href="https://www.tokenaire.club/assets/pdf/tokenaire-whitepaper.pdf">Tokenaire Whitepaper</a>
             </div>
 
             <div class="modal-footer">
-                <button disabled id="enter-button">Enter</button>
+                <button id="enter-button">Enter</button>
             </div>
         </div>
     </div>
